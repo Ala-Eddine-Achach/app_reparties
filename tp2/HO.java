@@ -21,12 +21,12 @@ public class HO  {
         factory.setHost(rabbitMQHost);
         factory.setPort(rabbitMQPort);
 
-        try (
+        try{
                 java.sql.Connection sqlConnection = DriverManager.getConnection(url, user, password);
                 PreparedStatement preparedStatement = sqlConnection.prepareStatement(insertQuery);
                 com.rabbitmq.client.Connection rabbitMQConnection = factory.newConnection();
                 com.rabbitmq.client.Channel channel = rabbitMQConnection.createChannel();
-        ) {
+
             channel.queueDeclare(rabbitMQQueue, true, false, false, null);
 
             // Start consuming messages from the queue
