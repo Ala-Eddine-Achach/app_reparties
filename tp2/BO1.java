@@ -15,12 +15,10 @@ public class BO1 {
         final String insertQuery = "INSERT INTO sales (date, region, product, qty, cost, amt, tax, total) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         final String rabbitMQHost = "localhost";
-        final int rabbitMQPort = 5672;
         final String rabbitMQQueue = "sales_queue";
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(rabbitMQHost);
-        factory.setPort(rabbitMQPort);
 
         try (
                 java.sql.Connection sqlConnection = DriverManager.getConnection(url, user, password);
