@@ -1,3 +1,6 @@
+
+
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
@@ -6,21 +9,21 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.ConnectionFactory;
 
-public class BO1 {
+public class BO2 {
     public static void main(String[] args) {
-        final String url = "jdbc:mysql://localhost:3306/TP2_sysrep_BO1";
+        final String url = "jdbc:mysql://localhost:3306/TP2_sysrep_BO2";
         final String user = "root";
         final String password = "";
 
         final String insertQuery = "INSERT INTO sales (date, region, product, qty, cost, amt, tax, total) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         final String rabbitMQHost = "localhost";
-        final int rabbitMQPort = 5672;
         final String rabbitMQQueue = "sales_queue";
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(rabbitMQHost);
-        factory.setPort(rabbitMQPort);
+
+        
 
         try (
                 java.sql.Connection sqlConnection = DriverManager.getConnection(url, user, password);
@@ -28,7 +31,7 @@ public class BO1 {
                 com.rabbitmq.client.Connection rabbitMQConnection = factory.newConnection();
                 com.rabbitmq.client.Channel channel = rabbitMQConnection.createChannel();
         ) {
-            String message = "2024-04-30,Region1,Product1,10,50,500,50,550";
+            String message = "2024-04-30,Region2,Product2,15,40,600,60,660";
 
             // Persisting the sale in the local database
             String[] data = message.split(",");

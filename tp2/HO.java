@@ -14,19 +14,17 @@ public class HO  {
         final String insertQuery = "INSERT INTO sales (date, region, product, qty, cost, amt, tax, total) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         final String rabbitMQHost = "localhost";
-        final int rabbitMQPort = 5672;
         final String rabbitMQQueue = "sales_queue";
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(rabbitMQHost);
-        factory.setPort(rabbitMQPort);
 
-        try (
+        try{
                 java.sql.Connection sqlConnection = DriverManager.getConnection(url, user, password);
                 PreparedStatement preparedStatement = sqlConnection.prepareStatement(insertQuery);
                 com.rabbitmq.client.Connection rabbitMQConnection = factory.newConnection();
                 com.rabbitmq.client.Channel channel = rabbitMQConnection.createChannel();
-        ) {
+
             channel.queueDeclare(rabbitMQQueue, true, false, false, null);
 
             // Start consuming messages from the queue
@@ -49,7 +47,7 @@ public class HO  {
 
                 System.out.println("Sale inserted successfully!");}
                 catch(SQLException e){
-                    System.err.println(e.getMessage() + " --fish");
+                    System.err.println(e.getMessage());
                 }
             }, consumerTag -> {});
         }
